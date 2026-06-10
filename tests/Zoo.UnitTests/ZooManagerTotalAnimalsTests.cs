@@ -21,4 +21,18 @@ public class ZooManagerTotalAnimalsTests
         // Assert
         result.Should().Be(3);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-004")]
+    public void TC016_TotalAnimals_ReturnsZeroForEmptyZoo()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.TotalAnimals;
+
+        // Assert
+        result.Should().Be(0);
+    }
 }

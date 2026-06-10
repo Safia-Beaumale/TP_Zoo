@@ -20,4 +20,18 @@ public class ZooManagerTotalCapacityUsedTests
         // Assert
         result.Should().Be(3);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-007")]
+    public void TC017_TotalCapacityUsed_ReturnsZeroForEmptyZoo()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+
+        // Act
+        var result = zoo.TotalCapacityUsed;
+
+        // Assert
+        result.Should().Be(0);
+    }
 }

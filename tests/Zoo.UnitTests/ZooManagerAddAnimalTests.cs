@@ -51,4 +51,21 @@ public class ZooManagerAddAnimalTests
         // Assert
         act.Should().Throw<ZooCapacityExceededException>();
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-006")]
+    [Trait("Requirement", "REQ-Z-007")]
+    public void TC019_AddAnimal_ThrowsWhenCriticalAnimalNeedsTwoPlacesButOnlyOneRemains()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        for (var id = 1; id <= 49; id++)
+            zoo.AddAnimal(TestAnimals.Create(id));
+
+        // Act
+        Action act = () => zoo.AddAnimal(TestAnimals.Create(50, status: HealthStatus.Critical));
+
+        // Assert
+        act.Should().Throw<ZooCapacityExceededException>();
+    }
 }

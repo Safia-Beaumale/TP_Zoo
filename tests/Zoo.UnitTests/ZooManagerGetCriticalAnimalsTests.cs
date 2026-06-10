@@ -23,4 +23,21 @@ public class ZooManagerGetCriticalAnimalsTests
         result.Should().HaveCount(2);
         result.Should().OnlyContain(animal => animal.Status == HealthStatus.Critical);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-013")]
+    public void TC018_GetCriticalAnimals_ReturnsEmptyListWhenNoCriticalAnimals()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(TestAnimals.Create(1, status: HealthStatus.Healthy));
+        zoo.AddAnimal(TestAnimals.Create(2, status: HealthStatus.Healthy));
+        zoo.AddAnimal(TestAnimals.Create(3, status: HealthStatus.Sick));
+
+        // Act
+        var result = zoo.GetCriticalAnimals();
+
+        // Assert
+        result.Should().BeEmpty();
+    }
 }
