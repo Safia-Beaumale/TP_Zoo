@@ -4,8 +4,16 @@ public class ZooManager
 {
     public const int MaxCapacity = 50;
 
-    public int AddAnimal(Animal animal) => throw new NotImplementedException();
-    public Animal? GetAnimal(int id) => throw new NotImplementedException();
+    private readonly Dictionary<int, Animal> _animals = new();
+
+    public int AddAnimal(Animal animal)
+    {
+        _animals[animal.Id] = animal;
+        return animal.Id;
+    }
+
+    public Animal? GetAnimal(int id) =>
+        _animals.TryGetValue(id, out var animal) ? animal : null;
     public int TotalAnimals => throw new NotImplementedException();
     public int TotalCapacityUsed => throw new NotImplementedException();
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
