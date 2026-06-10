@@ -59,6 +59,8 @@ public class ZooManager
 
     public double CalculateDailyCost()
         => _animals.Values.Sum(a => BaseCosts[a.Category] + HealthSurcharges[a.Status]);
-    public IReadOnlyList<Animal> GetCriticalAnimals() => throw new NotImplementedException();
-    public bool RemoveAnimal(int id) => throw new NotImplementedException();
+    public IReadOnlyList<Animal> GetCriticalAnimals()
+        => _animals.Values.Where(a => a.Status == HealthStatus.Critical).ToList();
+
+    public bool RemoveAnimal(int id) => _animals.Remove(id);
 }
