@@ -19,4 +19,36 @@ public class ZooManagerAddAnimalTests
         // Assert
         result.Should().Be(1);
     }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-005")]
+    public void TC005_AddAnimal_ThrowsDuplicateAnimalExceptionForExistingId()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        zoo.AddAnimal(TestAnimals.Simba());
+
+        // Act
+        Action act = () => zoo.AddAnimal(TestAnimals.Nala());
+
+        // Assert
+        act.Should().Throw<DuplicateAnimalException>()
+            .WithMessage("*1 already exists*");
+    }
+
+    [Fact]
+    [Trait("Requirement", "REQ-Z-006")]
+    public void TC006_AddAnimal_ThrowsZooCapacityExceededExceptionWhenFull()
+    {
+        // Arrange
+        var zoo = new ZooManager();
+        for (var id = 1; id <= ZooManager.MaxCapacity; id++)
+            zoo.AddAnimal(TestAnimals.Create(id));
+
+        // Act
+        Action act = () => zoo.AddAnimal(TestAnimals.Create(ZooManager.MaxCapacity + 1));
+
+        // Assert
+        act.Should().Throw<ZooCapacityExceededException>();
+    }
 }
