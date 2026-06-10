@@ -12,11 +12,19 @@ internal static class TestAnimals
         Status = HealthStatus.Healthy
     };
 
-    internal static Animal Nala() => new()
+    internal static Animal SimbaSick() => new()
     {
         Id = 1,
-        Name = "Nala",
+        Name = "Simba",
         Category = AnimalCategory.Carnivore,
+        Status = HealthStatus.Sick
+    };
+
+    internal static Animal Nala() => new()
+    {
+        Id = 2,
+        Name = "Nala",
+        Category = AnimalCategory.Herbivore,
         Status = HealthStatus.Healthy
     };
 
