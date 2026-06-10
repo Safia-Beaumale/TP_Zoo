@@ -20,6 +20,14 @@ internal static class TestAnimals
         Status = HealthStatus.Sick
     };
 
+    internal static Animal SimbaCritical() => new()
+    {
+        Id = 1,
+        Name = "Simba",
+        Category = AnimalCategory.Carnivore,
+        Status = HealthStatus.Critical
+    };
+
     internal static Animal Nala() => new()
     {
         Id = 2,
