@@ -29,7 +29,7 @@ public class ZooManagerAddAnimalTests
         zoo.AddAnimal(TestAnimals.Simba());
 
         // Act
-        Action act = () => zoo.AddAnimal(TestAnimals.Nala());
+        Action act = () => zoo.AddAnimal(TestAnimals.SimbaSick());
 
         // Assert
         act.Should().Throw<DuplicateAnimalException>()
