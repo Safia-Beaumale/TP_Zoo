@@ -11,8 +11,7 @@ public class ZooManager
         if (_animals.ContainsKey(animal.Id))
             throw new DuplicateAnimalException(animal.Id);
 
-        var requiredPlaces = animal.Status == HealthStatus.Critical ? 2 : 1;
-        if (TotalCapacityUsed + requiredPlaces > MaxCapacity)
+        if (TotalCapacityUsed + PlacesRequiredFor(animal) > MaxCapacity)
             throw new ZooCapacityExceededException();
 
         _animals[animal.Id] = animal;
@@ -23,8 +22,10 @@ public class ZooManager
 
     public int TotalAnimals => _animals.Count;
 
-    public int TotalCapacityUsed =>
-        _animals.Values.Sum(animal => animal.Status == HealthStatus.Critical ? 2 : 1);
+    public int TotalCapacityUsed => _animals.Values.Sum(PlacesRequiredFor);
+
+    private static int PlacesRequiredFor(Animal animal) =>
+        animal.Status == HealthStatus.Critical ? 2 : 1;
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
     public double CalculateDailyCost() => throw new NotImplementedException();
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new NotImplementedException();
