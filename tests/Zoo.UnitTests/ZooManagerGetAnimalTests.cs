@@ -11,13 +11,7 @@ public class ZooManagerGetAnimalTests
     {
         // Arrange
         var zoo = new ZooManager();
-        var animal = new Animal
-        {
-            Id = 1,
-            Name = "Simba",
-            Category = AnimalCategory.Carnivore,
-            Status = HealthStatus.Healthy
-        };
+        var animal = TestAnimals.Simba();
         zoo.AddAnimal(animal);
 
         // Act

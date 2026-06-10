@@ -12,8 +12,8 @@ public class ZooManager
         return animal.Id;
     }
 
-    public Animal? GetAnimal(int id) =>
-        _animals.TryGetValue(id, out var animal) ? animal : null;
+    public Animal? GetAnimal(int id) => _animals.GetValueOrDefault(id);
+
     public int TotalAnimals => throw new NotImplementedException();
     public int TotalCapacityUsed => throw new NotImplementedException();
     public double CalculateDailyRation(int animalId) => throw new NotImplementedException();
