@@ -43,6 +43,13 @@ public class ZooManager
 
     private const double SickRationMultiplier = 0.70;
 
+    private static readonly Dictionary<HealthStatus, double> HealthSurcharges = new()
+    {
+        [HealthStatus.Healthy]  =  0.0,
+        [HealthStatus.Sick]     = 20.0,
+        [HealthStatus.Critical] = 50.0,
+    };
+
     public double CalculateDailyRation(int animalId)
     {
         var animal = _animals[animalId];
@@ -51,16 +58,7 @@ public class ZooManager
     }
 
     public double CalculateDailyCost()
-    {
-        double total = 0;
-        foreach (var animal in _animals.Values)
-        {
-            total += BaseCosts[animal.Category];
-            if (animal.Status == HealthStatus.Sick)     total += 20.0;
-            if (animal.Status == HealthStatus.Critical) total += 50.0;
-        }
-        return total;
-    }
+        => _animals.Values.Sum(a => BaseCosts[a.Category] + HealthSurcharges[a.Status]);
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new NotImplementedException();
     public bool RemoveAnimal(int id) => throw new NotImplementedException();
 }
