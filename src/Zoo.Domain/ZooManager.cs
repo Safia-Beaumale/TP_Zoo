@@ -27,30 +27,31 @@ public class ZooManager
     private static int PlacesRequiredFor(Animal animal) =>
         animal.Status == HealthStatus.Critical ? 2 : 1;
 
+    private static readonly Dictionary<AnimalCategory, double> BaseRations = new()
+    {
+        [AnimalCategory.Carnivore] = 5.0,
+        [AnimalCategory.Herbivore] = 2.0,
+        [AnimalCategory.Omnivore]  = 3.0,
+    };
+
+    private static readonly Dictionary<AnimalCategory, double> BaseCosts = new()
+    {
+        [AnimalCategory.Carnivore] = 25.0,
+        [AnimalCategory.Herbivore] =  8.0,
+        [AnimalCategory.Omnivore]  = 15.0,
+    };
+
+    private const double SickRationMultiplier = 0.70;
+
     public double CalculateDailyRation(int animalId)
     {
         var animal = _animals[animalId];
-        double baseRation;
-        if (animal.Category == AnimalCategory.Carnivore) baseRation = 5.0;
-        else if (animal.Category == AnimalCategory.Herbivore) baseRation = 2.0;
-        else baseRation = 3.0;
-        if (animal.Status == HealthStatus.Sick) return baseRation * 0.70;
-        return baseRation;
+        double baseRation = BaseRations[animal.Category];
+        return animal.Status == HealthStatus.Sick ? baseRation * SickRationMultiplier : baseRation;
     }
 
     public double CalculateDailyCost()
-    {
-        double total = 0;
-        foreach (var animal in _animals.Values)
-        {
-            double cost;
-            if (animal.Category == AnimalCategory.Carnivore) cost = 25.0;
-            else if (animal.Category == AnimalCategory.Herbivore) cost = 8.0;
-            else cost = 15.0;
-            total += cost;
-        }
-        return total;
-    }
+        => _animals.Values.Sum(a => BaseCosts[a.Category]);
 
     public IReadOnlyList<Animal> GetCriticalAnimals() => throw new NotImplementedException();
     public bool RemoveAnimal(int id) => throw new NotImplementedException();
