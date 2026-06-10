@@ -24,8 +24,9 @@ public class ZooManager
 
     public int TotalCapacityUsed => _animals.Values.Sum(PlacesRequiredFor);
 
-    private static int PlacesRequiredFor(Animal animal) =>
-        animal.Status == HealthStatus.Critical ? 2 : 1;
+    private static bool IsCritical(Animal animal) => animal.Status == HealthStatus.Critical;
+
+    private static int PlacesRequiredFor(Animal animal) => IsCritical(animal) ? 2 : 1;
 
     private static readonly Dictionary<AnimalCategory, double> BaseRations = new()
     {
@@ -60,7 +61,7 @@ public class ZooManager
     public double CalculateDailyCost()
         => _animals.Values.Sum(a => BaseCosts[a.Category] + HealthSurcharges[a.Status]);
     public IReadOnlyList<Animal> GetCriticalAnimals()
-        => _animals.Values.Where(a => a.Status == HealthStatus.Critical).ToList();
+        => _animals.Values.Where(IsCritical).ToList();
 
     public bool RemoveAnimal(int id) => _animals.Remove(id);
 }
